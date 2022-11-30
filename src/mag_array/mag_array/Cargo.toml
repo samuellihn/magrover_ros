@@ -1,0 +1,38 @@
+[package]
+name = "mag_array"
+version = "0.1.0"
+authors = ["Samuel Lihn <samuellihn@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+pni_rm3100 = { "path" = "./lib/pni_rm3100" }
+shared-bus = { path = "./lib/shared-bus-0.2.4", features = ["std", "eh-alpha"] }
+anyhow = "1.0.58"
+threadpool = "1.8.1"
+mcp23017 = "1.0.0"
+embedded-hal = "1.0.0-alpha.9"
+embedded-hal-bus = "0.1.0-alpha.1"
+rppal = { version = "0.14.0", features = ["hal"] }
+
+[dependencies.rclrs]
+version = "*"
+
+[dependencies.rosidl_runtime_rs]
+version = "*"
+
+[dependencies.geometry_msgs]
+version = "*"
+
+[dependencies.sensor_msgs]
+version = "*"
+
+[dependencies.std_msgs]
+version = "*"
+
+[dependencies.mag_array_interfaces]
+version = "*"
+
+[package.metadata.ros]
+install_to_share = ["launch"]

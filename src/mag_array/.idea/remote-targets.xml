@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteTargetsManager">
+    <targets>
+      <target name="ubuntu@192.168.1.73:22" type="ssh/sftp" uuid="0f307c3b-4466-4ad5-952b-645f1a13d534">
+        <config>
+          <option name="projectRootOnTarget" value="/home/ubuntu/magrover_ros/src/mag_array_test" />
+          <option name="serverName" value="ubuntu@192.168.1.73:22 password" />
+        </config>
+        <ContributedStateBase type="RsLanguageRuntime">
+          <config>
+            <option name="cargoPath" value="/home/ubuntu/.cargo/bin/cargo" />
+            <option name="cargoVersion" value="1.63.0-nightly (8d42b0e87 2022-06-17)" />
+            <option name="rustcPath" value="/home/ubuntu/.cargo/bin/rustc" />
+            <option name="rustcVersion" value="1.63.0-nightly (dc80ca78b 2022-06-21)" />
+          </config>
+        </ContributedStateBase>
+      </target>
+      <target name="WSL - Ubuntu" type="wsl" uuid="26b151d2-d8fa-4439-a437-3b32d0b659d6">
+        <config>
+          <option name="distributionMsId" value="Ubuntu" />
+          <option name="projectRootOnTarget" value="/mnt/c/Users/samli/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/222.3345.126/jbr/bin&#10;/mag_array" />
+        </config>
+        <ContributedStateBase type="RsLanguageRuntime">
+          <config>
+            <option name="cargoPath" value="/root/.cargo/bin/cargo" />
+            <option name="cargoVersion" value="1.67.0-nightly (9286a1beb 2022-11-04)" />
+            <option name="rustcPath" value="/root/.cargo/bin/rustc" />
+            <option name="rustcVersion" value="1.67.0-nightly (c1a859b25 2022-11-10)" />
+          </config>
+        </ContributedStateBase>
+      </target>
+    </targets>
+  </component>
+</project>
