@@ -23,6 +23,7 @@ const RR_COEFF: i16 = -1;
 const LIFT_COEFF: i16 = -1;
 
 
+
 fn main() -> Result<(), Error> { // Initialize Hardware
     let mut servo_controller = ServoController::new(&String::from("/dev/ttyAMA1"));
 
@@ -68,8 +69,9 @@ fn main() -> Result<(), Error> { // Initialize Hardware
 // Algorithm from https://home.kendra.com/mauser/joystick.html
 fn vec3_to_tank(input: Vector3) -> (f64, f64) {
     // Invert X (step 2)
+    // Invert Y as quick and dirty fix
     let x = -input.x;
-    let y = input.y;
+    let y = -input.y;
 
     // Calculate R + L (step 3)
     let v = (1f64 - x.abs()) * y + y;

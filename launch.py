@@ -17,9 +17,15 @@ def generate_launch_description():
             arguments=['--ros-args', '--log-level', 'WARN'],
         ),
         Node(
-            package='ws_receiver',
-            executable='ws_receiver',
-            name='ws_receiver',
+            package='bt_receiver',
+            executable='bt_receiver',
+            name='bt_receiver',
+            arguments=['--ros-args', '--log-level', 'WARN'],
+        ),
+        Node(
+            package='mag_array',
+            executable='mag_array',
+            name='mag_array',
             arguments=['--ros-args', '--log-level', 'WARN'],
         )
     ])

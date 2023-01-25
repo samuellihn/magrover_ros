@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="a42b1440-e5e2-40fd-b8dd-988f200e4b66" name="MagRover">
+        <fileTransfer rootFolder="/home/ubuntu/" accessType="SFTP" host="192.168.1.73" port="22" sshConfigId="2029567f-a609-4ca1-bcf9-3ab4f036906a" sshConfig="ubuntu@192.168.1.73:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

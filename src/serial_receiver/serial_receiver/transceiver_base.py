@@ -9,7 +9,7 @@ class TransceiverBase(ABC):
     The data packets are formatted in the format: header + data_length + data_body + checksum
     """
     lock = threading.Lock()
-    header = b'\x69\x69\x20\x20'
+    header = bytearray(b'\x69\x69\x20\x20')
 
     @property
     @abstractmethod
@@ -25,13 +25,22 @@ class TransceiverBase(ABC):
         """Receives `bytes_to_read` bytes."""
         pass
 
-    def listener_daemon(self):
+    def read_packet(self):
+        buffer = bytearray()
         while True:
-            buffer = bytearray()
             buf_ptr = 0
 
             # Recv header
             buffer += self.recv(4)
+            if not buffer:
+                break
+
+            start_loc = buffer.find(self.header)
+            if start_loc == -1:
+                continue
+            else:
+                buffer = buffer[start_loc:]
+
             if buffer[0:4] != self.header:
                 continue
 
@@ -52,7 +61,6 @@ class TransceiverBase(ABC):
             buf_ptr += data_length
             data_end = buf_ptr
 
-
             # Read checksum
             checksum = int.from_bytes(buffer[buf_ptr:buf_ptr + 2], 'big', signed=False)
 
@@ -64,16 +72,12 @@ class TransceiverBase(ABC):
                 # Extract the data
                 packet = buffer[data_start:data_end]
                 self.callback(packet)
+                break
 
     @abstractmethod
     def connect(self) -> bool:
         """Opens the connection, returning a success state. Call `start_recv` after this to start the receiver."""
         pass
-
-    def start_recv(self):
-        """Starts the receiver thread."""
-        self.listener = threading.Thread(target=self.listener_daemon, daemon=True)
-        self.listener.start()
 
     @abstractmethod
     def send(self, data: Union[bytearray, str]):

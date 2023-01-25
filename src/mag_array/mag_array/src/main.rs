@@ -38,12 +38,28 @@ enum ServiceThreadCommands {
 }
 
 
+// sensors 1 to 9
+// sensor = rover
+// +x = -z
+// +y = -x
+// +z = -y
+
+// sensors 10 to 27
+// sensor = rover
+// +x = -z
+// +y = +x
+// +z = +y
+
+const SENSOR_TRANSFORMS: [(std::ops::Range, fn(f64, f64, f64) -> ((f64, f64, f64)))] = [
+    (0..=8, |x, y, z| { (-z, -x, -y) }),
+    (9..=26, |x, y, z| { (-z, x, y) }),
+];
+
 fn main() -> Result<(), Error> {
     const NUM_SENSORS: (usize, usize) = (16, 11);
     const BANK_OFFSETS: (usize, usize) = (0, 16);
 
     const TOTAL_SENSORS: usize = NUM_SENSORS.0 + NUM_SENSORS.1;
-    dbg!("hello");
 
     let (results_tx, results_rx) = mpsc::channel();
     let results_txc0 = results_tx.clone();
@@ -137,7 +153,6 @@ fn main() -> Result<(), Error> {
             measurements.push(MagneticField::default());
         }
 
-
         let mut frame_header = Header::default();
         let timestamp = time::SystemTime::now().duration_since(time::UNIX_EPOCH).unwrap();
         frame_header.stamp.sec = timestamp.as_secs() as i32;
@@ -163,13 +178,26 @@ fn main() -> Result<(), Error> {
 
             let covariance = [0f64; 9];
             measurements[ind].magnetic_field_covariance = covariance;
-
         }
+        for e in SENSOR_TRANSFORMS {
+            for r in e.0 {
+                (
+                    measurements[r].magnetic_field.x,
+                    measurements[r].magnetic_field.y,
+                    measurements[r].magnetic_field.z
+                ) = e.1(
+                    measurements[r].magnetic_field.x,
+                    measurements[r].magnetic_field.y,
+                    measurements[r].magnetic_field.z,
+                );
+            }
+        }
+
+
         // dbg!(measurements);
 
         message.data = measurements.try_into().unwrap();
         publisher.publish(&message);
-
     }
     // Clean up the threads to avoid issues
     service0_tx.send(ServiceThreadCommands::Kill).unwrap();
